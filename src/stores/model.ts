@@ -50,6 +50,8 @@ export const useModelStore = defineStore('model', () => {
   const message = ref('')
   /** zvýši sa, keď má plátno prispôsobiť zobrazenie (nový model, otočenie) */
   const fitRequest = ref(0)
+  /** celá obrazovka – len plátno, rovnice, graf a prehrávač */
+  const fullscreen = ref(false)
 
   /** Uloží aktuálny stav do histórie – volať pred zmenou (alebo na začiatku ťahania). */
   function checkpoint() {
@@ -139,7 +141,7 @@ export const useModelStore = defineStore('model', () => {
   )
 
   return {
-    model, past, future, mode, selection, selected, time, playing, speed, linkKind, numericEquations, showVelocity, message, fitRequest,
+    model, past, future, mode, selection, selected, time, playing, speed, linkKind, numericEquations, showVelocity, message, fitRequest, fullscreen,
     checkpoint, transact, undo, redo, load, changeAxis, remove, findAny, shareUrl,
   }
 })

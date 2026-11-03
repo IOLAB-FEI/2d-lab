@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useModelStore } from './stores/model'
 import { usePlayback } from './composables/useSimulation'
 import AppToolbar from './components/AppToolbar.vue'
@@ -41,11 +41,36 @@ function onKey(e: KeyboardEvent) {
   if (ctrl && e.key.toLowerCase() === 'z' && !e.shiftKey) (store.undo(), e.preventDefault())
   else if (ctrl && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))) (store.redo(), e.preventDefault())
   else if ((e.key === 'Delete' || e.key === 'Backspace') && store.selection && store.mode === 'design') store.remove(store.selection)
-  else if (e.key === 'Escape') store.selection = null
+  else if (e.key === 'Escape') store.fullscreen ? (store.fullscreen = false) : (store.selection = null)
   else if (e.key === ' ') (store.playing = !store.playing, e.preventDefault())
+  else if (e.key.toLowerCase() === 'f' && !ctrl && !e.altKey) store.fullscreen = !store.fullscreen
 }
-onMounted(() => window.addEventListener('keydown', onKey))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+
+// Celá obrazovka: rozloženie sa prepne cez CSS triedu (funguje všade) a navyše sa požiada
+// prehliadač o skutočný fullscreen celej stránky (iPhone ho nepovolí – ostane len okno).
+watch(
+  () => store.fullscreen,
+  on => {
+    if (on) {
+      store.mode = 'sim'
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {})
+    } else if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
+    nextTick(() => store.fitRequest++)
+  },
+)
+function onFullscreenChange() {
+  if (!document.fullscreenElement) store.fullscreen = false
+  store.fitRequest++
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', onKey)
+  document.addEventListener('fullscreenchange', onFullscreenChange)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onKey)
+  document.removeEventListener('fullscreenchange', onFullscreenChange)
+})
 
 const snackbar = computed({
   get: () => !!store.message,
@@ -57,7 +82,7 @@ const snackbar = computed({
   <v-app>
     <AppToolbar />
     <v-main>
-      <div class="layout">
+      <div class="layout" :class="{ stage: store.fullscreen }">
         <v-sheet border class="palette"><PalettePanel @start="startPalette" /></v-sheet>
         <v-sheet border class="canvas"><EditorCanvas ref="canvas" /></v-sheet>
         <v-sheet border class="props"><PropertiesPanel /></v-sheet>
@@ -137,6 +162,32 @@ body {
   }
   .equations {
     max-height: none;
+  }
+}
+/* Celá obrazovka: len plátno, rovnice a graf s prehrávačom – prekryje aj hornú lištu. */
+.layout.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 1010;
+  height: 100dvh;
+  background: rgb(var(--v-theme-background));
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto minmax(170px, 30vh);
+  grid-template-areas: 'canvas' 'equations' 'graph';
+}
+.layout.stage > .palette,
+.layout.stage > .props {
+  display: none;
+}
+.layout.stage > .equations {
+  max-height: 20vh;
+}
+@media (max-width: 959px) {
+  .layout.stage {
+    grid-template-rows: minmax(0, 1fr) auto 360px;
+  }
+  .layout.stage > .equations {
+    max-height: 16vh;
   }
 }
 .ghost {

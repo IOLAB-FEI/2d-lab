@@ -339,6 +339,14 @@ defineExpose({ drop })
       <v-btn icon="mdi-magnify-minus-outline" size="small" variant="tonal" density="comfortable" title="Oddialiť" @click="zoom(1 / 1.2)" />
       <v-btn icon="mdi-magnify-plus-outline" size="small" variant="tonal" density="comfortable" title="Priblížiť" @click="zoom(1.2)" />
       <v-btn icon="mdi-fit-to-screen-outline" size="small" variant="tonal" density="comfortable" title="Zobraziť celý systém" @click="fit" />
+      <v-btn
+        :icon="store.fullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
+        size="small"
+        variant="tonal"
+        density="comfortable"
+        :title="store.fullscreen ? 'Ukončiť celú obrazovku (Esc)' : 'Simulácia na celú obrazovku (F)'"
+        @click="store.fullscreen = !store.fullscreen"
+      />
     </div>
     <div v-if="!model.bodies.length" class="empty">
       <v-icon icon="mdi-gesture-tap-hold" size="40" class="mb-2" />
