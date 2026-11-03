@@ -86,7 +86,7 @@ export function toModelica(model: Model): string {
 
   return [
     `model ${modelName}`,
-    `  // Vygenerované nástrojom mmodels. Polohy sú posunutia voči nakreslenému stavu [m].`,
+    `  // Vygenerované nástrojom MechSim. Polohy sú posunutia voči nakreslenému stavu [m].`,
     `  import Modelica.Mechanics.Translational;`,
     ...decl,
     `equation`,

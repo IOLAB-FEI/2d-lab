@@ -9,6 +9,7 @@ import { toModelica, identifier } from '../core/modelica'
 const store = useModelStore()
 const fileInput = ref<HTMLInputElement>()
 const { smAndDown, xs } = useDisplay()
+const logo = `${import.meta.env.BASE_URL}favicon.svg`
 
 function download(name: string, text: string, type: string) {
   const a = document.createElement('a')
@@ -21,7 +22,7 @@ function download(name: string, text: string, type: string) {
 const baseName = () => identifier(store.model.name, new Set())
 
 function saveJson() {
-  download(`${baseName()}.mmodel.json`, JSON.stringify(store.model, null, 2), 'application/json')
+  download(`${baseName()}.mechsim.json`, JSON.stringify(store.model, null, 2), 'application/json')
 }
 
 function exportModelica() {
@@ -58,8 +59,9 @@ async function share() {
 
 <template>
   <v-app-bar density="compact" flat border>
-    <v-app-bar-title class="flex-grow-0 mr-3">
-      <span class="font-weight-medium">mmodels</span>
+    <v-app-bar-title class="flex-0-0" :class="xs ? 'mr-1' : 'mr-3'">
+      <img :src="logo" :alt="xs ? 'MechSim' : ''" width="24" height="24" class="logo" :class="{ 'mr-2': !xs }" />
+      <span v-if="!xs" class="font-weight-medium">MechSim</span>
       <span v-if="!smAndDown" class="text-medium-emphasis text-body-2 ml-2">{{ store.model.name }}</span>
     </v-app-bar-title>
     <v-spacer />
@@ -95,3 +97,9 @@ async function share() {
     <input ref="fileInput" type="file" accept=".json,application/json" hidden @change="openFile" />
   </v-app-bar>
 </template>
+
+<style scoped>
+.logo {
+  vertical-align: -6px;
+}
+</style>

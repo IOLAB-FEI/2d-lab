@@ -1,4 +1,4 @@
-# mmodels – online nástroj na tvorbu jednoduchých modelov mechanických systémov
+# MechSim – online nástroj na tvorbu jednoduchých modelov mechanických systémov
 
 Dátum: 2026-11-03 · Autor zadania: Jakub Matišák · Predloha: Matišák & Žáková, *Online Tool for Creating Simple Models of Mechanical Systems*, ICETA 2018, s. 355–359.
 
@@ -108,7 +108,7 @@ V tomto modeli spoje vždy spájajú dve telesá/steny, takže **nehmotné uzly 
 ## 6. Ukladanie a exporty
 
 - **Automatické uloženie** do `localStorage`.
-- **Súbor**: export/import `.mmodel.json` (verzovaná schéma `version: 1`).
+- **Súbor**: export/import `.mechsim.json` (verzovaná schéma `version: 1`).
 - **Zdieľanie**: model skomprimovaný do časti URL za `#` (lz-string) – bez servera.
 - **Modelica**: vygenerovaný `.mo` s komponentmi `Modelica.Mechanics.Translational` (`Mass`, `Spring`, `Damper`, `Fixed`, `Sources.Force`, `ConstantForce` pre gravitáciu) a `connect(...)`; číselné parametre sú validované (žiadna injekcia kódu).
 

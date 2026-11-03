@@ -54,6 +54,6 @@ export function validate(model: Model): Issue[] {
   }
   for (const m of ms)
     if (!anchored.has(m.id))
-      issues.push({ level: 'warning', message: `${m.name} nie je pružinou spojené so stenou – môže sa vzďaľovať.`, ids: [m.id] })
+      issues.push({ level: 'warning', message: `${m.name} nie je pružinou spojené so stenou – nemá pevnú rovnovážnu polohu.`, ids: [m.id] })
   return issues
 }

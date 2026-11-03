@@ -101,6 +101,15 @@ describe('validácia a export', () => {
     for (const ex of EXAMPLES) expect(validate(ex.make()).filter(i => i.level === 'error')).toEqual([])
   })
 
+  it('ukážky sa dajú odsimulovať a telesá sa počas pohybu nezrazia', () => {
+    for (const ex of EXAMPLES) {
+      const model = ex.make()
+      const res = simulate(model)
+      expect(res.x.every(row => row.every(Number.isFinite))).toBe(true)
+      expect(firstOverlap(model, res)).toBeNull()
+    }
+  })
+
   it('odhalí nekladnú hmotnosť a voľné teleso', () => {
     const model = oscillator(0, 10, 0, 0)
     model.links = []

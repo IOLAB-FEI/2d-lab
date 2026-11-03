@@ -5,13 +5,14 @@ import { type Model, type LinkKind, emptyModel } from '../core/model'
 import { twoCarts } from '../core/examples'
 import { setAxis } from '../core/geometry'
 
-const AUTOSAVE_KEY = 'mmodels:autosave'
+const AUTOSAVE_KEY = 'mechsim:autosave'
+const OLD_AUTOSAVE_KEY = 'mmodels:autosave'
 const clone = (m: Model): Model => JSON.parse(JSON.stringify(m))
 
 export function parseModel(text: string): Model {
   const m = JSON.parse(text)
   if (m?.version !== 1 || !Array.isArray(m.bodies) || !Array.isArray(m.links) || !Array.isArray(m.forces))
-    throw new Error('Súbor nie je model mmodels (verzia 1).')
+    throw new Error('Súbor nie je model MechSim (verzia 1).')
   return { ...emptyModel(), ...m }
 }
 
@@ -25,7 +26,7 @@ function initialModel(): Model {
     }
   }
   try {
-    const saved = localStorage.getItem(AUTOSAVE_KEY)
+    const saved = localStorage.getItem(AUTOSAVE_KEY) ?? localStorage.getItem(OLD_AUTOSAVE_KEY)
     if (saved) return parseModel(saved)
   } catch {
     /* localStorage nedostupný */
