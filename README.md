@@ -40,6 +40,8 @@ Aplikácia beží na <http://localhost:5173>.
 
 ## Nasadenie
 
+Aplikácia beží na <https://iolab-fei.github.io/2d-lab/>. Workflow [deploy.yml](.github/workflows/deploy.yml) ju pri každom pushi na `main` otestuje, zostaví a nasadí na GitHub Pages (v nastaveniach repozitára musí byť Settings → Pages → Source: GitHub Actions).
+
 Výsledok buildu je statická stránka. Obsah priečinka `dist/` stačí nahrať na ľubovoľný webový server alebo hosting (GitHub Pages, Azure Static Web Apps, Nginx…). Cesty sú relatívne (`base: './'`), takže stránka funguje aj v podpriečinku.
 
 ## Ako to funguje
