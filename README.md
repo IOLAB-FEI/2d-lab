@@ -13,6 +13,7 @@ Nadväzuje na nástroj z článku Matišák, J., Žáková, K.: *Online Tool for
 - **Rovnice** – odvodené z nakresleného systému, symbolicky alebo s číslami. Každý člen má farbu svojho prvku a vybraný prvok sa v rovniciach zvýrazní.
 - **Simulácia** – presná diskretizácia lineárneho modelu (maticová exponenciála), prepočet pri každej zmene parametra.
 - **Prehrávanie** – play/pauza, krokovanie, rýchlosť, posuvník. Graf pokrýva celú simuláciu, prejdená časť je plná, budúca bledá a čiara „tu som“ ukazuje aktuálny čas; kliknutím do grafu sa dá skočiť v čase. V režime Simulácia sa ťahaním telesa nastaví jeho počiatočná výchylka.
+- **Rozloženie** – veľkosť panelov (paleta, vlastnosti, rovnice, graf) sa mení ťahaním rozdeľovačov, dvojklik vráti pôvodnú a nastavenie si prehliadač pamätá. Celá obrazovka (tlačidlo ⛶ alebo kláves F) ukáže len plátno, rovnice a graf.
 - **Kontroly** – upozorní na neplatné parametre, teleso bez pružiny ku stene a na zrážku telies počas pohybu.
 - **Ukladanie bez servera** – automaticky v prehliadači, súbor `.mechsim.json`, zdieľací odkaz (model je zakódovaný v adrese) a export do Modelica (`.mo`, knižnica `Modelica.Mechanics.Translational`).
 - **Ukážky** – dve telesá medzi stenami (s tlmením aj bez), teleso na vozíku, dve telesá spojené pružinou, tlmený harmonický oscilátor, dve viazané telesá (pružina–tlmič) a dva vozíky so silou.
