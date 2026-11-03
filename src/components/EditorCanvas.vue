@@ -33,6 +33,12 @@ onMounted(() => {
 })
 onBeforeUnmount(() => ro?.disconnect())
 
+/** Zastaví prehrávanie a vráti telesá do počiatočnej polohy x₀. */
+function resetPosition() {
+  store.playing = false
+  store.time = 0
+}
+
 /** Zobrazí celý systém – s rezervou na pohyb telies a popisy. */
 function fit() {
   userView = false
@@ -316,6 +322,18 @@ defineExpose({ drop })
       >
         Gravitácia {{ store.model.gravity ? 'zap.' : 'vyp.' }}
       </v-chip>
+      <v-btn
+        v-if="isSim"
+        size="small"
+        variant="tonal"
+        color="primary"
+        prepend-icon="mdi-restore"
+        :disabled="store.time === 0 && !store.playing"
+        title="Zastaví simuláciu a vráti telesá do počiatočnej polohy (t = 0 s)"
+        @click="resetPosition"
+      >
+        <span class="hide-xs">Reset polohy</span>
+      </v-btn>
     </div>
     <div class="overlay top-right">
       <v-btn icon="mdi-magnify-minus-outline" size="small" variant="tonal" density="comfortable" title="Oddialiť" @click="zoom(1 / 1.2)" />
